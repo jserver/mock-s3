@@ -150,15 +150,12 @@ if __name__ == '__main__':
     parser.add_argument('--root', dest='root', action='store',
                         default='%s/s3store' % os.environ['HOME'],
                         help='Defaults to $HOME/s3store.')
-    parser.add_argument('--redis', dest='redis', action='store',
-                        default='localhost',
-                        help='The hostname of redis server.')
     parser.add_argument('--pull-from-aws', dest='pull_from_aws', action='store_true',
                         default=False,
                         help='Pull non-existent keys from aws.')
     args = parser.parse_args()
 
-    redis_client = StrictRedis(host=args.redis, port=6379, db='mock-s3')
+    redis_client = StrictRedis()
 
     server = ThreadedHTTPServer((args.hostname, args.port), S3Handler)
     server.set_file_store(FileStore(args.root, redis_client))
