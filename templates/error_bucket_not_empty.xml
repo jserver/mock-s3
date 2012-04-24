@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Error>
+  <Code>BucketNotEmpty</Code>
+  <Message>The bucket you tried to delete is not empty.</Message>
+  <Resource>{{ name }}</Resource>
+  <RequestId>1</RequestId>
+</Error>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ListAllMyBucketsResult xmlns="http://doc.s3.amazonaws.com/2006-03-01">
+  <Owner>
+    <ID>123</ID>
+    <DisplayName>MockS3</DisplayName>
+  </Owner>
+  <Buckets>
+    {% for bucket in buckets %}
+    <Bucket>
+        <Name>{{ bucket.name }}</Name>
+        <CreationDate>{{ bucket.creation_date }}</CreationDate>
+    </Bucket>
+    {% endfor %}
+  </Buckets>
+</ListAllMyBucketsResult>

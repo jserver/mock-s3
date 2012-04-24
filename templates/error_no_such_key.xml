@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Error>
+  <Code>NoSuchKey</Code>
+  <Message>The specified key does not exist</Message>
+  <Resource>{{ name }}</Resource>
+  <RequestId>1</RequestId>
+  <HostId>2</HostId>
+</Error>

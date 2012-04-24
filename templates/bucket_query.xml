@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01">
+  <Name>{{ bucket_query.bucket.name }}</Name>
+  <Prefix>{{ bucket_query.prefix }}</Prefix>
+  <Marker>{{ bucket_query.marker }}</Marker>
+  <MaxKeys>{{ bucket_query.max_keys }}</MaxKeys>
+  <IsTruncated>false</IsTruncated>
+  {% for s3_item in bucket_query.matches %}
+  <Contents>
+    <Key>{{ s3_item.key }}</Key>
+    <LastModified>{{ s3_item.creation_date }}</LastModified>
+    <ETag>&quot;{{ s3_item.md5 }}&quot;</ETag>
+    <Size>{{ s3_item.size }}</Size>
+    <StorageClass>STANDARD</StorageClass>
+    <Owner>
+      <ID>123</ID>
+      <DisplayName>MockS3</DisplayName>
+    </Owner>
+  </Contents>
+  {% endfor %}
+</ListBucketResult>
