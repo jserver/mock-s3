@@ -1,4 +1,5 @@
 import urllib2
+import datetime
 
 
 def list_buckets(handler):
@@ -63,9 +64,18 @@ def get_item(handler, bucket_name, item_name):
     headers = {}
     for key in handler.headers:
         headers[key.lower()] = handler.headers[key]
+
+    if hasattr(item, 'creation_date'):
+        last_modified = item.creation_date
+    else:
+        last_modified = item.modified_date
+    last_modified = datetime.datetime.strptime(last_modified, '%Y-%m-%dT%H:%M:%S.000Z')
+    last_modified = last_modified.strftime('%a, %d %b %Y %H:%M:%S GMT')
+
     if 'range' in headers:
         handler.send_response(206)
         handler.send_header('Content-Type', item.content_type)
+        handler.send_header('Last-Modified', last_modified)
         handler.send_header('Etag', item.md5)
         handler.send_header('Accept-Ranges', 'bytes')
         range = handler.headers['bytes'].split('=')[1]
@@ -81,9 +91,10 @@ def get_item(handler, bucket_name, item_name):
         return
 
     handler.send_response(200)
-    handler.send_header('Content-Type', item.content_type)
+    handler.send_header('Last-Modified', last_modified)
     handler.send_header('Etag', item.md5)
     handler.send_header('Accept-Ranges', 'bytes')
+    handler.send_header('Content-Type', item.content_type)
     handler.send_header('Content-Length', content_length)
     handler.end_headers()
     if handler.command == 'GET':
