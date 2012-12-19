@@ -120,6 +120,8 @@ class FileStore(object):
         for key in headers:
             lower_headers[key.lower()] = headers[key]
         headers = lower_headers
+        if 'content-type' not in headers:
+            headers['content-type'] = 'application/octet-stream'
 
         size = int(headers['content-length'])
         m.update(data)
@@ -161,6 +163,8 @@ class FileStore(object):
         headers = {}
         for key in handler.headers:
             headers[key.lower()] = handler.headers[key]
+        if 'content-type' not in headers:
+            headers['content-type'] = 'application/octet-stream'
 
         size = int(headers['content-length'])
         data = handler.rfile.read(size)
