@@ -37,7 +37,9 @@ class FileStore(object):
         if bucket_name not in [bucket.name for bucket in self.buckets]:
             creation_date = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z') 
             self.redis.sadd(BUCKETS_KEY, '%s|%s' % (bucket_name, creation_date))
-            os.makedirs(os.path.join(self.root, bucket_name))
+            target = os.path.join(self.root, bucket_name)
+            if not os.path.isdir(target):
+                os.makedirs(target)
             bucket = Bucket(bucket_name, creation_date)
             self.buckets.append(bucket)
         else:
@@ -120,6 +122,8 @@ class FileStore(object):
         for key in headers:
             lower_headers[key.lower()] = headers[key]
         headers = lower_headers
+        if 'content-type' not in headers:
+            headers['content-type'] = 'application/octet-stream'
 
         size = int(headers['content-length'])
         m.update(data)
@@ -161,6 +165,8 @@ class FileStore(object):
         headers = {}
         for key in handler.headers:
             headers[key.lower()] = handler.headers[key]
+        if 'content-type' not in headers:
+            headers['content-type'] = 'application/octet-stream'
 
         size = int(headers['content-length'])
         data = handler.rfile.read(size)
