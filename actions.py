@@ -15,10 +15,10 @@ def ls_bucket(handler, bucket_name, qs):
     bucket = handler.server.file_store.get_bucket(bucket_name)
     if bucket:
         kwargs = {
-            'marker': getattr(qs, 'marker', [''])[0],
-            'prefix': getattr(qs, 'prefix', [''])[0],
-            'max_keys': getattr(qs, 'max-keys', [1000])[0],
-            'delimiter': getattr(qs, 'delimiter', [''])[0],
+            'marker': qs.get('marker', [''])[0],
+            'prefix': qs.get('prefix', [''])[0],
+            'max_keys': qs.get('max-keys', [1000])[0],
+            'delimiter': qs.get('delimiter', [''])[0],
         }
         bucket_query = handler.server.file_store.get_all_keys(bucket, **kwargs)
         handler.send_response(200)
@@ -82,7 +82,7 @@ def get_item(handler, bucket_name, item_name):
         start = int(range.split('-')[0])
         finish = int(range.split('-')[1])
         if finish == 0:
-            finish =  content_length - 1
+            finish = content_length - 1
         bytes_to_read = finish - start + 1
         handler.send_header('Content-Range', 'bytes %s-%s/%s' % (start, finish, content_length))
         handler.end_headers()

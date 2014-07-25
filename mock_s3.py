@@ -7,7 +7,6 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from SocketServer import ThreadingMixIn
 
 from jinja2 import Environment, PackageLoader
-from redis import StrictRedis
 
 from actions import get_acl, get_item, list_buckets, ls_bucket
 from file_store import FileStore
@@ -38,7 +37,7 @@ class S3Handler(BaseHTTPRequestHandler):
             if not bucket_name:
                 bucket_name, sep, item_name = path.strip('/').partition('/')
             else:
-               item_name = path.strip('/')
+                item_name = path.strip('/')
 
             if not bucket_name:
                 req_type = 'list_buckets'
@@ -89,7 +88,7 @@ class S3Handler(BaseHTTPRequestHandler):
             if not bucket_name:
                 bucket_name, sep, item_name = path.strip('/').partition('/')
             else:
-               item_name = path.strip('/')
+                item_name = path.strip('/')
 
             if not item_name:
                 req_type = 'create_bucket'
@@ -119,6 +118,7 @@ class S3Handler(BaseHTTPRequestHandler):
 
         elif req_type == 'copy':
             self.server.file_store.copy_item(src_bucket, src_key, bucket_name, item_name, self)
+            # TODO: should be some xml here
             self.send_response(200)
 
         self.send_header('Content-Type', 'text/xml')
@@ -155,10 +155,8 @@ if __name__ == '__main__':
                         help='Pull non-existent keys from aws.')
     args = parser.parse_args()
 
-    redis_client = StrictRedis()
-
     server = ThreadedHTTPServer((args.hostname, args.port), S3Handler)
-    server.set_file_store(FileStore(args.root, redis_client))
+    server.set_file_store(FileStore(args.root))
     server.set_mock_hostname(args.hostname)
     server.set_pull_from_aws(args.pull_from_aws)
     server.set_template_env(Environment(loader=PackageLoader('mock_s3', 'templates')))
