@@ -1,14 +1,19 @@
 import urllib2
 import datetime
 
+import xml_templates
+
 
 def list_buckets(handler):
     handler.send_response(200)
     handler.send_header('Content-Type', 'application/xml')
     handler.end_headers()
     buckets = handler.server.file_store.buckets
-    template = handler.server.env.get_template('buckets.xml')
-    handler.wfile.write(template.render(buckets=buckets))
+    xml = ''
+    for bucket in buckets:
+        xml += xml_templates.buckets_bucket_xml.format(bucket=bucket)
+    xml = xml_templates.buckets_xml.format(xml)
+    handler.wfile.write(xml)
 
 
 def ls_bucket(handler, bucket_name, qs):
@@ -24,22 +29,24 @@ def ls_bucket(handler, bucket_name, qs):
         handler.send_response(200)
         handler.send_header('Content-Type', 'application/xml')
         handler.end_headers()
-        template = handler.server.env.get_template('bucket_query.xml')
-        handler.wfile.write(template.render(bucket_query=bucket_query))
+        contents = ''
+        for s3_item in bucket_query.matches:
+            contents += xml_templates.bucket_query_content_xml.format(s3_item=s3_item)
+        xml = xml_templates.bucket_query_xml.format(bucket_query=bucket_query, contents=contents)
+        handler.wfile.write(xml)
     else:
         handler.send_response(404)
         handler.send_header('Content-Type', 'application/xml')
         handler.end_headers()
-        template = handler.server.env.get_template('error_no_such_bucket.xml')
-        handler.wfile.write(template.render(name=bucket_name))
+        xml = xml_templates.error_no_such_bucket_xml.format(name=bucket_name)
+        handler.wfile.write(xml)
 
 
 def get_acl(handler):
     handler.send_response(200)
     handler.send_header('Content-Type', 'application/xml')
     handler.end_headers()
-    template = handler.server.env.get_template('acl.xml')
-    handler.wfile.write(template.render())
+    handler.wfile.write(xml_templates.acl_xml)
 
 
 def load_from_aws(handler, bucket_name, item_name):

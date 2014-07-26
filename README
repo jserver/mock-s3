@@ -1,5 +1,8 @@
 A python port of Fake-S3
 
+INSTALL:
+python setup.py install
+
 NOTE:
-As of July 25th redis is no longer a dependency.
-For existing users I doubt there is a clean upgrade path
+As of July 2014 redis and jinja2 are no longer dependencies.
+For existing users I doubt there is a clean upgrade path.

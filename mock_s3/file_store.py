@@ -15,6 +15,8 @@ METADATA_FILE = '.mocks3_metadata'
 class FileStore(object):
     def __init__(self, root):
         self.root = root
+        if not os.path.exists(self.root):
+            os.makedirs(self.root)
         self.buckets = self.get_all_buckets()
 
     def get_bucket_folder(self, bucket_name):

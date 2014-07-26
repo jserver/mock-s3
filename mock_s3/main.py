@@ -1,12 +1,10 @@
-#!/usr/bin/env python
 import argparse
 import logging
 import os
+import sys
 import urlparse
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from SocketServer import ThreadingMixIn
-
-from jinja2 import Environment, PackageLoader
 
 from actions import get_acl, get_item, list_buckets, ls_bucket
 from file_store import FileStore
@@ -135,11 +133,8 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     def set_pull_from_aws(self, pull_from_aws):
         self.pull_from_aws = pull_from_aws
 
-    def set_template_env(self, env):
-        self.env = env
 
-
-if __name__ == '__main__':
+def main(argv=sys.argv[1:]):
     parser = argparse.ArgumentParser(description='A Mock-S3 server.')
     parser.add_argument('--hostname', dest='hostname', action='store',
                         default='localhost',
@@ -159,7 +154,10 @@ if __name__ == '__main__':
     server.set_file_store(FileStore(args.root))
     server.set_mock_hostname(args.hostname)
     server.set_pull_from_aws(args.pull_from_aws)
-    server.set_template_env(Environment(loader=PackageLoader('mock_s3', 'templates')))
 
     print 'Starting server, use <Ctrl-C> to stop'
     server.serve_forever()
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))
