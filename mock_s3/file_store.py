@@ -246,7 +246,8 @@ class FileStore(object):
                 'filename': filename,
                 'size': size,
             }
-        config.add_section('metadata')
+        if not config.has_section('metadata'):
+            config.add_section('metadata')
         config.set('metadata', 'size', metadata['size'])
         config.set('metadata', 'md5', metadata['md5'])
         config.set('metadata', 'filename', metadata['filename'])
