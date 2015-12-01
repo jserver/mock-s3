@@ -61,3 +61,12 @@ acl_xml = '''<?xml version='1.0' encoding='UTF-8'?>
     </Grant>
   </AccessControlList>
 </AccessControlPolicy>'''
+
+deleted_deleted_xml = '''  <Deleted>
+    <Key>{key}</Key>
+  </Deleted>'''
+
+deleted_xml = '''<?xml version="1.0" encoding="UTF-8"?>
+<DeleteResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+  {contents}
+</DeleteResult>'''

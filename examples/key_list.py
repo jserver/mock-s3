@@ -7,11 +7,12 @@ OrdinaryCallingFormat = boto.config.get('s3', 'calling_format', 'boto.s3.connect
 s3 = boto.connect_s3(host='localhost', port=10001, calling_format=OrdinaryCallingFormat, is_secure=False)
 b = s3.create_bucket('mocking')
 
-kwrite = Key(b)
-kwrite.key = 'goodbye.html'
-kwrite.set_contents_from_string('this is some other cool html')
+keys = b.get_all_keys(prefix='level')
+print 'TEST 1'
+for key in keys:
+    print repr(key)
 
-kread = Key(b)
-kread.key = 'goodbye.html'
-content  = kread.get_contents_as_string()
-print content
+keys = b.get_all_keys(max_keys=3)
+print 'TEST 2'
+for key in keys:
+    print repr(key)

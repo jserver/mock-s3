@@ -106,3 +106,19 @@ def get_item(handler, bucket_name, item_name):
     handler.end_headers()
     if handler.command == 'GET':
         handler.wfile.write(item.io.read())
+
+
+def delete_item(handler, bucket_name, item_name):
+    handler.server.file_store.delete_item(bucket_name, item_name)
+
+
+def delete_items(handler, bucket_name, keys):
+    handler.send_response(200)
+    handler.send_header('Content-Type', 'application/xml')
+    handler.end_headers()
+    xml = ''
+    for key in keys:
+        delete_item(handler, bucket_name, key)
+        xml += xml_templates.deleted_deleted_xml.format(key=key)
+    xml = xml_templates.deleted_xml.format(contents=xml)
+    handler.wfile.write(xml)

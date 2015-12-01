@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<Error>
-  <Code>{{ error.code }}</Code>
-  <Message>{{ error.message }}</Message>
-  <Resource>{{ error.resource }}</Resource>
-  <RequestId>1</RequestId>
-</Error>

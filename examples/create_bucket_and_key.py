@@ -8,10 +8,10 @@ s3 = boto.connect_s3(host='localhost', port=10001, calling_format=OrdinaryCallin
 b = s3.create_bucket('mocking')
 
 kwrite = Key(b)
-kwrite.key = 'middle.html'
-kwrite.set_contents_from_string('this is some special html')
+kwrite.key = 'hello.txt'
+kwrite.set_contents_from_string('Nothing to see here, hello')
 
 kread = Key(b)
-kread.key = 'middle.html'
-content  = kread.get_contents_as_string()
+kread.key = 'hello.txt'
+content = kread.get_contents_as_string()
 print content

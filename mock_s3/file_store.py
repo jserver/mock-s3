@@ -259,9 +259,6 @@ class FileStore(object):
             config.write(configfile)
         return S3Item(key, **metadata)
 
-    def delete_item(self, bucket, item_name):
-        key_name = os.path.join(bucket.name, item_name)
-        dirname = os.path.join(self.root, key_name)
-        os.remove(os.path.join(dirname, METADATA_FILE))
-        filename = os.path.join(dirname, CONTENT_FILE)
-        shutil.rmtree(filename)
+    def delete_item(self, bucket_name, item_name):
+        dirname = os.path.join(self.root, bucket_name, item_name)
+        shutil.rmtree(dirname, ignore_errors=True)
