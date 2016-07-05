@@ -6,7 +6,7 @@ buckets_xml = '''\
     <DisplayName>MockS3</DisplayName>
   </Owner>
   <Buckets>
-    {}
+{buckets}
   </Buckets>
 </ListAllMyBucketsResult>'''
 
@@ -24,7 +24,7 @@ bucket_query_xml = '''\
   <Marker>{bucket_query.marker}</Marker>
   <MaxKeys>{bucket_query.max_keys}</MaxKeys>
   <IsTruncated>false</IsTruncated>
-  {contents}
+{contents}
 </ListBucketResult>'''
 
 bucket_query_content_xml = '''\
@@ -70,7 +70,7 @@ acl_xml = '''\
 deleted_xml = '''\
 <?xml version="1.0" encoding="UTF-8"?>
 <DeleteResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-  {contents}
+{contents}
 </DeleteResult>'''
 
 deleted_deleted_xml = '''\

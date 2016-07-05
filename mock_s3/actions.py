@@ -12,7 +12,7 @@ def list_buckets(handler):
     xml = ''
     for bucket in buckets:
         xml += xml_templates.buckets_bucket_xml.format(bucket=bucket)
-    xml = xml_templates.buckets_xml.format(xml)
+    xml = xml_templates.buckets_xml.format(buckets=xml)
     handler.wfile.write(xml)
 
 
