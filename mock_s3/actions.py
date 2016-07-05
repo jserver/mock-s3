@@ -85,13 +85,14 @@ def get_item(handler, bucket_name, item_name):
         handler.send_header('Last-Modified', last_modified)
         handler.send_header('Etag', item.md5)
         handler.send_header('Accept-Ranges', 'bytes')
-        range_ = handler.headers['bytes'].split('=')[1]
+        range_ = handler.headers['range'].split('=')[1]
         start = int(range_.split('-')[0])
         finish = int(range_.split('-')[1])
         if finish == 0:
             finish = content_length - 1
         bytes_to_read = finish - start + 1
         handler.send_header('Content-Range', 'bytes %s-%s/%s' % (start, finish, content_length))
+        handler.send_header('Content-Length', '%s' % bytes_to_read)
         handler.end_headers()
         item.io.seek(start)
         handler.wfile.write(item.io.read(bytes_to_read))
