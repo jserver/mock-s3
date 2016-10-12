@@ -175,13 +175,13 @@ class FileStore(object):
 
         if metadata:
             metadata['md5'] = m.hexdigest()
-            metadata['modified_date'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            metadata['modified_date'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.000Z')
             metadata['content_type'] = headers['content-type']
             metadata['size'] = size
         else:
             metadata = {
                 'content_type': headers['content-type'],
-                'creation_date': datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+                'creation_date': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.000Z'),
                 'md5': m.hexdigest(),
                 'filename': filename,
                 'size': size,
@@ -235,13 +235,13 @@ class FileStore(object):
 
         if metadata:
             metadata['md5'] = m.hexdigest()
-            metadata['modified_date'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            metadata['modified_date'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.000Z')
             metadata['content_type'] = headers['content-type']
             metadata['size'] = size
         else:
             metadata = {
                 'content_type': headers['content-type'],
-                'creation_date': datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+                'creation_date': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.000Z'),
                 'md5': m.hexdigest(),
                 'filename': filename,
                 'size': size,
