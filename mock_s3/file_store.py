@@ -77,7 +77,7 @@ class FileStore(object):
                     if config.has_option('metadata', 'modified_date'):
                         metadata['modified_date'] = config.get('metadata', 'modified_date')
 
-                actual_key = root.replace(self.root, '')
+                actual_key = root.replace(self.root, '', 1)
                 actual_key = actual_key.replace('/' + bucket.name + '/', '')
                 matches.append(S3Item(actual_key, **metadata))
                 if len(matches) >= max_keys:
